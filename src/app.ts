@@ -534,39 +534,227 @@ function injectStyles() {
       margin-top: 20px;
     }
 
-    /* 农事页 */
-    .month-index {
-      display: flex;
-      gap: 6px;
+    /* 农事计划页 */
+    .farm-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
       margin-bottom: 16px;
-      flex-wrap: wrap;
     }
 
-    .month-btn {
-      padding: 6px 14px;
+    .stat-chip {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .stat-value { font-size: 22px; font-weight: bold; color: var(--text-light); }
+    .stat-label { font-size: 12px; color: var(--text-light); }
+    .stat-danger .stat-value { color: var(--accent); }
+    .stat-warning .stat-value { color: #b06d00; }
+    .stat-neutral .stat-value { color: var(--primary); }
+
+    .upcoming-card h3 { color: var(--secondary); border-color: var(--secondary); }
+    .overdue-card { border-color: var(--accent); }
+    .overdue-card h3 { color: var(--accent); border-color: var(--accent); }
+
+    .upcoming-list, .overdue-list { display: grid; gap: 6px; }
+
+    .upcoming-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 8px 10px;
+      background: #f2f8f2;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .upcoming-row.conflict { background: #fff6e5; outline: 1px solid #e0b35e; }
+    .up-when { font-weight: bold; color: var(--secondary); min-width: 56px; }
+    .up-date { color: var(--text-light); font-size: 13px; }
+    .up-who { font-weight: bold; }
+
+    .overdue-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 8px 10px;
+      background: #fff0f0;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .od-days { font-weight: bold; color: var(--accent); min-width: 70px; }
+    .od-who { font-weight: bold; }
+    .od-date { color: var(--text-light); font-size: 13px; margin-right: auto; }
+
+    .mini-btn {
+      padding: 4px 10px;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 4px;
       cursor: pointer;
+      color: var(--text);
+    }
+
+    .mini-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .done-btn:hover { border-color: var(--secondary); color: var(--secondary); }
+    .delay-btn:hover { border-color: #b06d00; color: #b06d00; }
+    .stop-btn { color: var(--accent); border-color: #e6b3b3; }
+    .stop-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+    .delete-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+    .resume-btn:hover { background: var(--secondary); color: white; border-color: var(--secondary); }
+    .safe-btn:hover { background: var(--secondary); color: white; border-color: var(--secondary); }
+
+    /* 新增地块表单 */
+    .add-plot-card h3 { margin-bottom: 14px; }
+    .plot-form { display: grid; gap: 12px; }
+    .form-row { display: flex; align-items: center; gap: 10px; }
+    .form-row label { min-width: 96px; font-weight: bold; color: var(--primary); font-size: 14px; }
+    .form-row input[type="text"], .form-row input[type="date"], .form-row select {
+      flex: 1;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 14px;
+      background: white;
+    }
+
+    .crop-note, .term-hint {
+      font-size: 12px;
+      color: var(--text-light);
+      margin: -4px 0 0 106px;
+    }
+
+    /* 地块卡 */
+    .plot-card { padding: 16px; }
+    .plot-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .plot-title { display: flex; flex-direction: column; gap: 2px; min-width: 140px; }
+    .plot-name { font-size: 18px; font-weight: bold; color: var(--primary); }
+    .plot-crop { font-size: 14px; color: var(--secondary); font-weight: bold; }
+    .plot-growth { font-size: 12px; color: var(--text-light); }
+
+    .harvest-edit { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .harvest-label { font-size: 13px; color: var(--text-light); }
+    .harvest-input {
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
       font-size: 13px;
     }
+    .plot-head .stop-btn { margin-left: auto; }
 
-    .month-btn:hover {
-      border-color: var(--primary);
-      background: var(--primary);
-      color: white;
-    }
-
-    .term-list {
+    /* 节点时间线 */
+    .node-timeline { display: grid; gap: 8px; }
+    .node-row {
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+      background: white;
       display: grid;
-      gap: 12px;
+      gap: 8px;
     }
+
+    .node-row.done { background: #f4f7f4; border-left-color: var(--secondary); opacity: 0.75; }
+    .node-row.overdue { border-left-color: var(--accent); background: #fff8f8; }
+    .node-row.conflict { border-left-color: #d99000; }
+    .node-row.shifted { border-left-color: var(--secondary); }
+
+    .node-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .node-name { font-weight: bold; font-size: 15px; min-width: 84px; }
+    .node-date { font-size: 14px; }
+    .node-rel { font-size: 12px; color: var(--text-light); }
+    .node-rel.rel-overdue { color: var(--accent); font-weight: bold; }
+
+    .node-badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+    .badge-term { background: #ece4d8; color: var(--text-light); }
+    .badge-good { background: #e3f2e5; color: var(--secondary); font-weight: bold; }
+    .badge-done { background: #dcedde; color: var(--secondary); }
+    .badge-overdue { background: #ffe0e0; color: var(--accent); font-weight: bold; }
+    .badge-conflict { background: #fff0d6; color: #9a6500; font-weight: bold; }
+    .badge-manual { background: #e8eef7; color: #2a5298; }
+
+    .node-detail { display: grid; gap: 2px; }
+    .node-base { font-size: 12px; color: var(--text-light); }
+    .node-reason { font-size: 13px; color: #1b6b35; background: #f0f7f1; padding: 6px 8px; border-radius: 4px; }
+    .node-warning { font-size: 13px; color: var(--accent); background: #fdf0f0; padding: 6px 8px; border-radius: 4px; }
+
+    .node-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .node-date-input {
+      padding: 4px 6px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    /* 已停种 */
+    .stopped-wrap {
+      background: var(--card-bg);
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+    .stopped-title { color: var(--text-light); font-size: 14px; margin-bottom: 10px; }
+    .stopped-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--border);
+      font-size: 14px;
+      opacity: 0.8;
+    }
+    .stopped-row:last-child { border-bottom: none; }
+    .sp-name { font-weight: bold; min-width: 90px; }
+    .sp-crop { color: var(--secondary); }
+    .sp-date { color: var(--text-light); font-size: 12px; margin-right: auto; }
+
+    /* 节气参考 */
+    .term-reference { margin-top: 24px; }
+    .term-ref-toggle {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-light);
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .term-ref-toggle:hover { color: var(--primary); border-color: var(--primary); }
+    .term-ref-body { margin-top: 12px; display: grid; gap: 10px; }
 
     .term-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 16px;
+      padding: 14px;
     }
 
     .term-header {
@@ -574,24 +762,13 @@ function injectStyles() {
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
-    }
-
-    .term-name {
-      font-size: 18px;
-      font-weight: bold;
-      color: var(--primary);
-    }
-
-    .term-hou {
-      font-size: 13px;
-      color: var(--text-light);
-    }
-
-    .term-tasks {
-      display: flex;
+      gap: 10px;
       flex-wrap: wrap;
-      gap: 6px;
     }
+
+    .term-name { font-size: 17px; font-weight: bold; color: var(--primary); }
+    .term-hou { font-size: 12px; color: var(--text-light); }
+    .term-tasks { display: flex; flex-wrap: wrap; gap: 6px; }
 
     /* 二十八宿 */
     .xiu-name {
@@ -620,6 +797,12 @@ function injectStyles() {
       .yiji-row { flex-direction: column; }
       .hour-row { grid-template-columns: 60px 80px 60px 50px; font-size: 13px; }
       .ganzhi { gap: 8px; font-size: 14px; }
+      .farm-stats { grid-template-columns: repeat(2, 1fr); }
+      .form-row { flex-direction: column; align-items: stretch; }
+      .form-row label { min-width: 0; }
+      .crop-note, .term-hint { margin-left: 0; }
+      .plot-head .stop-btn { margin-left: 0; }
+      .harvest-edit { width: 100%; }
     }
   `;
   document.head.appendChild(style);

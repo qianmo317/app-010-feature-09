@@ -12,7 +12,9 @@ export function renderFarm(app: HTMLElement) {
   const backBtn = createElement('button', 'back-btn', '◀ 返回');
   backBtn.addEventListener('click', () => router.navigate('/'));
   const title = createElement('h1', 'page-title', '节气农事表');
-  header.append(backBtn, title);
+  const plotsBtn = createElement('button', 'nav-btn', '按地块排计划 →');
+  plotsBtn.addEventListener('click', () => router.navigate('/plots'));
+  header.append(backBtn, title, plotsBtn);
 
   // 节气列表
   const termList = createElement('div', 'term-list');

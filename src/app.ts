@@ -3,6 +3,7 @@ import { renderCalendar } from './pages/calendar';
 import { renderDayDetail } from './pages/day-detail';
 import { renderPick } from './pages/pick';
 import { renderFarm } from './pages/farm';
+import { renderPlots } from './pages/plots';
 
 export function initApp() {
   const app = document.getElementById('app');
@@ -29,6 +30,9 @@ export function initApp() {
         break;
       case '/farm':
         renderFarm(app);
+        break;
+      case '/plots':
+        renderPlots(app);
         break;
       default:
         renderCalendar(app);
@@ -610,6 +614,231 @@ function injectStyles() {
     .pengzu-item:last-child {
       border-bottom: none;
     }
+
+    /* 地块农事计划 */
+    .plan-summary {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .plan-summary span {
+      padding: 6px 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    .plan-summary b { color: var(--primary); }
+    .plan-summary .warn b { color: var(--accent); }
+
+    .plot-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .plot-form-grid label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .plot-form-grid input, .plot-form-grid select {
+      padding: 9px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      background: white;
+      font-weight: normal;
+    }
+
+    .plot-form-grid .submit-btn { grid-column: span 2; }
+
+    .form-hint {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    .empty-hint {
+      color: var(--text-light);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .conflict-card { border-left: 4px solid #e6a23c; }
+    .conflict-card h3 { color: #b26a00; border-left-color: #e6a23c; }
+
+    .conflict-line {
+      font-size: 13px;
+      padding: 4px 0;
+      color: var(--text);
+    }
+
+    .plot-card-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .plot-head-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .plot-name {
+      font-size: 17px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .plot-meta, .plot-span {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    .stop-btn {
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-light);
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .stop-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .node-list { display: flex; flex-direction: column; }
+
+    .node-row {
+      display: flex;
+      gap: 10px;
+      padding: 10px 8px;
+      border-bottom: 1px solid #f0eadd;
+      border-radius: 6px;
+      align-items: flex-start;
+    }
+
+    .node-row:last-child { border-bottom: none; }
+    .node-row.overdue { background: #fff5f5; }
+    .node-row.done { opacity: 0.55; }
+    .node-row.done .node-name { text-decoration: line-through; }
+
+    .node-check {
+      margin-top: 4px;
+      width: 16px;
+      height: 16px;
+      accent-color: var(--secondary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .node-main { flex: 1; min-width: 0; }
+
+    .node-line1 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .node-date {
+      font-size: 13px;
+      color: var(--text-light);
+      min-width: 96px;
+    }
+
+    .node-date.today { color: var(--accent); font-weight: bold; }
+
+    .node-name { font-size: 15px; font-weight: bold; }
+
+    .node-term {
+      font-size: 11px;
+      color: var(--secondary);
+      background: #e8f5e9;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+
+    .badge-overdue { background: #ffebee; color: var(--accent); }
+    .badge-conflict { background: #fdf3e0; color: #b26a00; }
+
+    .node-reason {
+      margin-top: 4px;
+      font-size: 12px;
+      color: #8a6d3b;
+      background: #fcf8e3;
+      border-radius: 4px;
+      padding: 4px 8px;
+    }
+
+    .node-actions {
+      margin-top: 6px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .node-date-input {
+      padding: 4px 6px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--text-light);
+      background: white;
+    }
+
+    .push-btn {
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-light);
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .push-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    .stopped-section { margin-top: 20px; }
+
+    .stopped-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      opacity: 0.75;
+    }
+
+    .stopped-name { font-weight: bold; }
+    .stopped-meta { flex: 1; font-size: 12px; color: var(--text-light); }
 
     /* 响应式 */
     @media (max-width: 600px) {
